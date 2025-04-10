@@ -9,48 +9,61 @@
       font-family: sans-serif;
       padding: 20px;
       text-align: center;
+      background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
+      background-size: cover;
+      background-position: center;
     }
+
     h2 {
       margin-top: 40px;
     }
+
     .dia {
       margin-bottom: 40px;
     }
+
     .ejercicio {
       display: flex;
       gap: 10px;
       align-items: center;
       margin-bottom: 10px;
     }
-    .ejercicio input {
-      flex: 1;
-      background-color: #f0f0f0;
-      border: none;
+
+    .ejercicio input,
+    select {
+      font-weight: bold;
+      color: black;
+      background-color: transparent;
+      border: 1px solid #ccc;
       padding: 5px;
       text-align: center;
     }
-    select {
+
+    .ejercicio select {
       min-width: 80px;
-      padding: 5px;
     }
+
     button {
       margin-top: 10px;
       padding: 5px 10px;
     }
+
     .lupa {
       cursor: pointer;
       margin-left: 10px;
-      font-size: 16px; /* Reducido */
-      padding: 3px 6px; /* Tamaño más pequeño */
+      font-size: 16px;
+      padding: 3px 6px;
     }
+
     .seleccion-usuario {
       display: flex;
-      justify-content: center;
-      gap: 20px;
+      flex-direction: column; /* Cambiado para que los botones estén uno debajo del otro */
+      align-items: center;
       margin-top: 50px;
     }
+
     .seleccion-usuario button {
-      background-color: #4CAF50;
+      background-color: #2196F3;
       color: white;
       padding: 15px 32px;
       text-align: center;
@@ -58,22 +71,27 @@
       border: none;
       cursor: pointer;
       border-radius: 5px;
+      margin-bottom: 20px; /* Añadido para que haya espacio entre los botones */
     }
+
     .seleccion-usuario button:hover {
-      background-color: #45a049;
+      background-color: #0b7dda;
     }
+
     .volver {
       margin-top: 20px;
       font-size: 16px;
       text-decoration: underline;
       cursor: pointer;
     }
+
     .rutina-predeterminada {
       display: flex;
       justify-content: center;
       flex-direction: column;
       align-items: center;
     }
+
     .rutina-predeterminada button {
       background-color: #2196F3;
       color: white;
@@ -85,9 +103,11 @@
       border-radius: 5px;
       margin-top: 20px;
     }
+
     .rutina-predeterminada button:hover {
       background-color: #0b7dda;
     }
+
     .editar-btn {
       margin-top: 20px;
       background-color: #ff9800;
@@ -98,6 +118,7 @@
       cursor: pointer;
       border-radius: 5px;
     }
+
     .editar-btn:hover {
       background-color: #f57c00;
     }
@@ -124,11 +145,8 @@
 
   <div id="rutina" style="display:none;">
     <div class="volver" onclick="volverSeleccionRutina()">← Volver a seleccionar rutina</div>
-
     <button id="editarBtn" class="editar-btn" onclick="toggleEditMode()">Editar</button>
-
     <div id="diasRutina"></div>
-
   </div>
 
   <script>
@@ -306,7 +324,7 @@
       div.appendChild(selectReps);
       const lupa = document.createElement('button');
       lupa.innerHTML = '🔍';
-      lupa.classList.add('lupa'); // Asegura que el estilo sea igual
+      lupa.classList.add('lupa');
       div.appendChild(lupa);
       const eliminarBtn = document.createElement('button');
       eliminarBtn.innerHTML = '❌';
