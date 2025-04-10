@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rutina de Ejercicios</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 1em;
+    }
+    h2 {
+      margin-top: 1.5em;
+      border-bottom: 2px solid #ccc;
+      padding-bottom: 0.3em;
+    }
+    .exercise {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5em;
+    }
+    .exercise input[type="text"] {
+      flex: 1;
+      margin-right: 0.5em;
+      padding: 0.4em;
+      font-size: 1em;
+    }
+    .exercise input[type="number"] {
+      width: 80px;
+      margin-right: 0.5em;
+      padding: 0.4em;
+      font-size: 1em;
+    }
+    .exercise button {
+      padding: 0.3em 0.6em;
+      font-size: 0.9em;
+    }
+    .add-btn {
+      margin-top: 1em;
+      padding: 0.5em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Rutina de Ejercicios</h1>
+  <div id="rutina"></div>
+
+  <script>
+    const dias = {
+      "Día 1 – Push (Pecho, Hombros, Tríceps)": [
+        "Press banca plano con barra",
+        "Press inclinado con mancuernas",
+        "Aperturas en máquina o polea",
+        "Press militar con barra",
+        "Elevaciones laterales",
+        "Fondos o extensión de tríceps en polea",
+      ],
+      "Día 2 – Pull (Espalda, Bíceps)": [
+        "Dominadas o jalones al pecho",
+        "Remo con barra o mancuernas",
+        "Jalón en polea con agarre cerrado",
+        "Curl bíceps con barra",
+        "Curl martillo",
+        "Face pulls",
+      ],
+      "Día 3 – Piernas": [
+        "Sentadillas",
+        "Prensa",
+        "Peso muerto rumano",
+        "Zancadas caminando",
+        "Curl femoral",
+        "Elevaciones de talones (gemelos)",
+      ],
+      "Día 4 – Tren Superior (Fuerza)": [
+        "Press banca plano",
+        "Dominadas lastradas o jalón",
+        "Remo con barra",
+        "Press militar",
+        "Curl bíceps + fondos (superserie)",
+      ],
+      "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)": [
+        "Peso muerto convencional",
+        "Sentadilla frontal o hack",
+        "Hip thrust",
+        "Abductores en máquina",
+        "Plancha",
+        "Crunch en polea alta",
+      ]
+    };
+
+    const rutinaContainer = document.getElementById('rutina');
+    const STORAGE_KEY = 'rutina_ejercicios_guardados';
+
+    function loadSavedData() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    }
+
+    function saveData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    }
+
+    const saved = loadSavedData();
+
+    function crearEjercicio(dia, nombre = '', peso = '') {
+      const div = document.createElement('div');
+      div.className = 'exercise';
+
+      const inputNombre = document.createElement('input');
+      inputNombre.type = 'text';
+      inputNombre.value = nombre;
+
+      const inputPeso = document.createElement('input');
+      inputPeso.type = 'number';
+      inputPeso.placeholder = 'Peso';
+      inputPeso.value = peso;
+
+      const btnEliminar = document.createElement('button');
+      btnEliminar.textContent = '❌';
+
+      inputNombre.addEventListener('change', () => {
+        guardarEstado();
+      });
+
+      inputPeso.addEventListener('input', () => {
+        guardarEstado();
+      });
+
+      btnEliminar.addEventListener('click', () => {
+        div.remove();
+        guardarEstado();
+      });
+
+      div.appendChild(inputNombre);
+      div.appendChild(inputPeso);
+      div.appendChild(btnEliminar);
+      return div;
+    }
+
+    function guardarEstado() {
+      const data = {};
+      document.querySelectorAll('.dia').forEach(diaDiv => {
+        const nombreDia = diaDiv.dataset.nombre;
+        const ejercicios = [];
+        diaDiv.querySelectorAll('.exercise').forEach(ej => {
+          const nombre = ej.querySelector('input[type=text]').value;
+          const peso = ej.querySelector('input[type=number]').value;
+          ejercicios.push({ nombre, peso });
+        });
+        data[nombreDia] = ejercicios;
+      });
+      saveData(data);
+    }
+
+    Object.keys(dias).forEach(nombreDia => {
+      const h2 = document.createElement('h2');
+      h2.textContent = nombreDia;
+      rutinaContainer.appendChild(h2);
+
+      const diaDiv = document.createElement('div');
+      diaDiv.className = 'dia';
+      diaDiv.dataset.nombre = nombreDia;
+      rutinaContainer.appendChild(diaDiv);
+
+      const ejerciciosGuardados = saved[nombreDia] || dias[nombreDia].map(e => ({ nombre: e, peso: '' }));
+
+      ejerciciosGuardados.forEach(({ nombre, peso }) => {
+        const ejercicio = crearEjercicio(nombreDia, nombre, peso);
+        diaDiv.appendChild(ejercicio);
+      });
+
+      const btnAgregar = document.createElement('button');
+      btnAgregar.textContent = '➕ Añadir ejercicio';
+      btnAgregar.className = 'add-btn';
+      btnAgregar.addEventListener('click', () => {
+        const nuevo = crearEjercicio(nombreDia);
+        diaDiv.appendChild(nuevo);
+        guardarEstado();
+      });
+
+      rutinaContainer.appendChild(btnAgregar);
+    });
+  </script>
+</body>
+</html>
