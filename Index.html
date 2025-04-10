@@ -31,9 +31,17 @@
     }
     select {
       min-width: 80px;
+      padding: 5px;
     }
     button {
       margin-top: 10px;
+      padding: 5px 10px;
+    }
+    .lupa {
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 16px; /* Reducido */
+      padding: 3px 6px; /* Tamaño más pequeño */
     }
     .seleccion-usuario {
       display: flex;
@@ -79,11 +87,6 @@
     }
     .rutina-predeterminada button:hover {
       background-color: #0b7dda;
-    }
-    .lupa {
-      cursor: pointer;
-      margin-left: 10px;
-      font-size: 20px;
     }
     .editar-btn {
       margin-top: 20px;
@@ -303,6 +306,7 @@
       div.appendChild(selectReps);
       const lupa = document.createElement('button');
       lupa.innerHTML = '🔍';
+      lupa.classList.add('lupa'); // Asegura que el estilo sea igual
       div.appendChild(lupa);
       const eliminarBtn = document.createElement('button');
       eliminarBtn.innerHTML = '❌';
@@ -316,7 +320,7 @@
     };
 
     const verImagen = (ejercicio) => {
-      alert(`Imagen del ejercicio ${ejercicio}`);
+      window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${ejercicio}`);
     };
 
     const guardarCambios = () => {
