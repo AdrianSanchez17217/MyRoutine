@@ -5,22 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rutina de Ejercicio</title>
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 10px;
-      text-align: center;
-      background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-attachment: fixed;
-    }
+body {
+  font-family: sans-serif;
+  padding: 10px;
+  text-align: center;
+  background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+color: white;
+}
 
-    @media (max-width: 768px) {
-      body {
-        background-size: auto 100%;
-      }
-    }
+@media (max-width: 768px) {
+  body {
+    background-size: contain; /* Ajuste para pantallas más pequeñas */
+  }
+}
 
     h2 {
       margin-top: 40px;
@@ -38,13 +39,14 @@
       padding: 5px 10px;
       cursor: pointer;
       background-color: transparent;
-      color: black;
+      color: white;
       border: none;
       border-radius: 5px;
       margin: 5px;
       font-weight: bold;
       font-size: 16px;
       flex: 1;  /* Se ajustará a la pantalla */
+     color: white;
     }
 
     .tab:hover {
@@ -74,7 +76,7 @@
     .ejercicio input,
     .ejercicio select {
       font-weight: bold;
-      color: black;
+      color: white;
       background-color: transparent;
       border: none;
       padding: 2px;
@@ -90,7 +92,7 @@
 
 .ejercicio textarea {
   font-weight: bold;
-  color: black;
+  color: white;
   background-color: transparent;
   border: none;
   padding: 2px;
@@ -125,6 +127,7 @@
       flex-direction: column;
       align-items: center;
       margin-top: 50px;
+color: white;
     }
 
     .seleccion-usuario button {
@@ -141,6 +144,7 @@
 
     .seleccion-usuario button:hover {
       background-color: #0b7dda;
+     color: white;
     }
 
     .volver {
@@ -148,7 +152,7 @@
       font-size: 18px;
       text-decoration: underline;
       cursor: pointer;
-      color: black;
+      color: white;
     }
 
     .rutina-predeterminada {
@@ -156,6 +160,7 @@
       justify-content: center;
       flex-direction: column;
       align-items: center;
+      color: white;
     }
 
     .rutina-predeterminada button {
@@ -191,7 +196,7 @@
 
     .ejercicio input:disabled,
     .ejercicio select:disabled {
-      color: black;
+      color: white;
       background-color: transparent;
       opacity: 1;
       font-weight: bold;
