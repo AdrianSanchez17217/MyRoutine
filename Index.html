@@ -6,13 +6,23 @@
   <title>Rutina de Ejercicio</title>
   <style>
     body {
-      font-family: sans-serif;
-      padding: 20px;
-      text-align: center;
-      background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
-      background-size: cover;
-      background-position: center;
+     font-family: sans-serif;
+     padding: 20px;
+     text-align: center;
+     background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
+     background-size: cover;
+     background-position: center;
+     background-repeat: no-repeat; /* Evita que el fondo se repita */
+     background-attachment: fixed; /* Esto mantiene el fondo fijo mientras se hace scroll */
     }
+
+     @media (max-width: 768px) {
+      /* Ajustes para pantallas más pequeñas (como móviles) */
+   body {
+    background-size: auto 100%; /* Ajusta el tamaño del fondo en dispositivos pequeños */
+  }
+}
+
 
     h2 {
       margin-top: 40px;
@@ -34,15 +44,17 @@
       font-weight: bold;
       color: black;
       background-color: transparent;
-      border: 0.1px solid #ccc;
-      padding: 5px;
+      border: none;
+      padding: 2px;
       text-align: left;
       font-size: 16px;   /* Cambia el tamaño del texto de los ejercicios */
-      mind-width: 300px;
+      width: auto;
     }
 
     .ejercicio select {
-      width: auto;
+      max-width: 73px;
+      text-align: center;
+     
     }
 
     button {
@@ -53,8 +65,8 @@
     .lupa {
       cursor: pointer;
       margin-left: 5px;
-      font-size: 10px;
-      padding: 3px 3px;
+      font-size: 14px;
+      padding: 2px 2px;
     }
 
     .seleccion-usuario {
@@ -125,6 +137,14 @@
     .editar-btn:hover {
       background-color: #2196F3;
     }
+
+    .ejercicio input:disabled, 
+    .ejercicio select:disabled {
+     color: black; /* Cambia el color del texto a negro */
+     background-color: transparent; /* Mantiene el fondo transparente */
+     opacity: 1; /* Elimina la opacidad para que no se vea atenuado */
+   }
+
   </style>
 </head>
 <body>
@@ -300,14 +320,14 @@
 
     const generarOpcionesKG = () => {
       const opciones = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-      return opciones.map(k => `<option value="${k}">${k} KG</option>`).join('');
+      return opciones.map(k => `<option value="${k}">${k} kg</option>`).join('');
     };
 
     const generarOpcionesSeriesReps = () => {
       const opciones = [
         "3x6", "3x8", "3x10", "3x15", 
         "4x6", "4x8", "4x10", "4x12", 
-        "4x15", "3x1min", "4x1min", "3x2min", "4x2min"
+        "4x15", "3x1'", "4x1'", "3x2'", "4x2'"
       ];
       return opciones.map(o => `<option value="${o}">${o}</option>`).join('');
     };
@@ -352,3 +372,4 @@
 
 </body>
 </html>
+
