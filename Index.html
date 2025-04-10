@@ -26,6 +26,40 @@
       margin-top: 40px;
     }
 
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      background-color: transparent;
+      color: black;
+      border: none;
+      border-radius: 5px;
+      margin: 0 5px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .tab:hover {
+      background-color: #0b7dda;
+    }
+
+    .tab:last-child {
+      margin-top: 20px; /* Margen adicional para el último conjunto de botones */
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
     .dia {
       margin-bottom: 40px;
     }
@@ -192,7 +226,7 @@
     <h1>Selecciona tu rutina</h1>
     <div class="rutina-predeterminada">
       <h2>Rutinas Predeterminadas</h2>
-      <button onclick="cargarRutina('Rutina 5 dias')">Rutina 5 días</button>
+      <button onclick="cargarRutina('Rutina 5 días')">Rutina 5 días</button>
     </div>
     <div class="volver" onclick="volverSeleccionUsuario()">← Volver a seleccionar usuario</div>
   </div>
@@ -201,6 +235,11 @@
     <div class="volver" onclick="volverSeleccionRutina()">← Volver a seleccionar rutina</div>
     <button id="editarBtn" class="editar-btn" onclick="toggleEditMode()">Editar</button>
     <button class="reset-btn" onclick="resetRutina()">Resetear Rutina</button>
+
+    <!-- Tabs para cada día -->
+    <div class="tabs" id="tabs"></div>
+
+    <!-- Contenido de cada día -->
     <div id="diasRutina"></div>
   </div>
 
@@ -224,7 +263,7 @@
       rutinaSeleccionada = rutina;
       document.getElementById('seleccionRutina').style.display = 'none';
       document.getElementById('rutina').style.display = 'block';
-      if (rutina === 'Rutina 5 dias') {
+      if (rutina === 'Rutina 5 días') {
         cargarRutina5Dias();
       }
     };
@@ -324,9 +363,11 @@
         }
       ];
 
+      let tabs = '';
       let content = '';
-      rutina.forEach(dia => {
-        content += `<div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
+      rutina.forEach((dia, index) => {
+        tabs += `<button class="tab" onclick="mostrarDia(${index})">${dia.dia}</button>`;
+        content += `<div class="tab-content" id="dia${index}"><div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
         dia.ejercicios.forEach(ej => {
           content += `
             <div class="ejercicio">
@@ -341,58 +382,95 @@
               <button onclick="eliminarEjercicio(event)">❌</button>
             </div>`;
         });
-        content += '</div></div>';
+        content += '</div></div></div>';
       });
 
+      document.getElementById('tabs').innerHTML = tabs;
       document.getElementById('diasRutina').innerHTML = content;
     };
 
-    const generarOpcionesKG = () => {
-      return `<option>5</option><option>10</option><option>15</option><option>20</option><option>25</option>`;
+    const mostrarDia = (index) => {
+      const allTabs = document.querySelectorAll('.tab-content');
+      allTabs.forEach(tab => tab.classList.remove('active'));
+      document.getElementById(`dia${index}`).classList.add('active');
     };
 
-    const generarOpcionesSeriesReps = () => {
-      return `<option>3x12</option><option>4x8</option><option>5x5</option>`;
-    };
+const generarOpcionesKG = () => {
+  let opciones = '';
+  for (let i = 5; i <= 100; i += 5) {
+    opciones += `<option>${i} kg</option>`;
+  }
+  return opciones;
+};
 
-
+const generarOpcionesSeriesReps = () => {
+  return `
+    <option>3x6</option>
+    <option>3x8</option>
+    <option>3x10</option>
+    <option>3x12</option>
+    <option>3x15</option>
+    <option>4x6</option>
+    <option>4x8</option>
+    <option>4x10</option>
+    <option>4x12</option>
+    <option>4x15</option>
+    <option>3x1'</option>
+    <option>3x2'</option>
+    <option>4x1'</option>
+    <option>4x2'</option>
+  `;
+};
 
 const verEjercicio = (ejercicio) => {
   const query = encodeURIComponent(ejercicio);
   window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
 };
 
+const eliminarEjercicio = (e) => {
+  const ejercicioDiv = e.target.parentElement;
+  ejercicioDiv.remove();
+  guardarCambios(); // Guardar después de eliminar
+};
 
-
-
-    const eliminarEjercicio = (e) => {
-      const ejercicioDiv = e.target.parentElement;
-      ejercicioDiv.remove();
-      guardarCambios(); // Guardar después de eliminar
+const guardarCambios = () => {
+  const dias = [];
+  
+  // Itera sobre cada día de la rutina
+  document.querySelectorAll('.dia').forEach(diaDiv => {
+    const dia = { 
+      dia: diaDiv.querySelector('h2').innerText, 
+      ejercicios: [] 
     };
+    
+    // Itera sobre cada ejercicio en ese día
+    diaDiv.querySelectorAll('.ejercicio').forEach(ejDiv => {
+      const ejercicio = {
+        nombre: ejDiv.querySelector('input').value, // Nombre del ejercicio
 
-    const guardarCambios = () => {
-      const dias = [];
-      document.querySelectorAll('.dia').forEach(diaDiv => {
-        const dia = { dia: diaDiv.querySelector('h2').innerText, ejercicios: [] };
-        diaDiv.querySelectorAll('.ejercicio').forEach(ejDiv => {
-          const ejercicio = {
-            nombre: ejDiv.querySelector('input').value,
-            kg: ejDiv.querySelector('.kg').value,
-            seriesReps: ejDiv.querySelector('.seriesReps').value
-          };
-          dia.ejercicios.push(ejercicio);
-        });
-        dias.push(dia);
-      });
-      localStorage.setItem('rutina', JSON.stringify(dias)); // Guardar los cambios en localStorage
-    };
+        // Aquí guardamos los valores de los desplegables
+        peso: ejDiv.querySelector('.peso-select') ? ejDiv.querySelector('.peso-select').value : '',  // Selección del peso
+        seriesReps: ejDiv.querySelector('.series-reps-select') ? ejDiv.querySelector('.series-reps-select').value : ''  // Selección de series y repeticiones
+      };
 
-    const resetRutina = () => {
-      localStorage.removeItem('rutina');
-      cargarRutina5Dias();
-    };
+      dia.ejercicios.push(ejercicio);
+    });
+
+    dias.push(dia);
+  });
+
+  // Guardamos los datos en el localStorage
+  localStorage.setItem('rutina', JSON.stringify(dias));
+};
+
+const resetRutina = () => {
+  if (confirm("¿Seguro que quieres resetear la rutina?")) {
+    localStorage.removeItem('rutina');
+    cargarRutina5Dias(); // Recargar rutina por defecto
+  }
+};
+
   </script>
-
 </body>
 </html>
+
