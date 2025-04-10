@@ -26,32 +26,32 @@
       margin-top: 40px;
     }
 
+    /* Estilos para las pestañas */
     .tabs {
       display: flex;
       justify-content: center;
       margin-bottom: 20px;
+      flex-wrap: wrap;  /* Para permitir que las pestañas se ajusten */
     }
 
     .tab {
-      padding: 10px 20px;
+      padding: 5px 10px;
       cursor: pointer;
       background-color: transparent;
       color: black;
       border: none;
       border-radius: 5px;
-      margin: 0 5px;
+      margin: 5px;
       font-weight: bold;
       font-size: 16px;
+      flex: 1;  /* Se ajustará a la pantalla */
     }
 
     .tab:hover {
       background-color: #0b7dda;
     }
 
-    .tab:last-child {
-      margin-top: 20px; /* Margen adicional para el último conjunto de botones */
-    }
-
+    /* Estilos para el contenido de cada día */
     .tab-content {
       display: none;
     }
@@ -88,20 +88,21 @@
       text-align: center;
     }
 
-    .ejercicio textarea {
-      font-weight: bold;
-      color: black;
-      background-color: transparent;
-      border: none;
-      padding: 2px;
-      text-align: left;
-      font-size: 16px;
-      width: 100%;
-      resize: none;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      line-height: 1.2em;
-    }
+.ejercicio textarea {
+  font-weight: bold;
+  color: black;
+  background-color: transparent;
+  border: none;
+  padding: 2px;
+  text-align: left;
+  font-size: 16px;
+  width: 100%;  /* Ajusta el ancho al 100% */
+  resize: none;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  line-height: 1.2em;
+}
+
 
     button {
       margin-top: 5px;
@@ -210,8 +211,49 @@
     .reset-btn:hover {
       background-color: #d32f2f;
     }
+
+    /* Ajustes específicos para #diasRutina */
+    #diasRutina {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    /* Ajustes para el diseño en pantallas más pequeñas */
+    @media (max-width: 768px) {
+      #diasRutina {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .dia {
+        width: 100%;
+        text-align: center;
+      }
+
+      .ejercicio {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+      }
+
+      .tab {
+        width: 100%;
+        margin: 5px 0;
+      }
+    }
+
+    /* Para pantallas grandes */
+    @media (min-width: 769px) {
+      .dia {
+        width: 48%;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <div id="seleccionUsuario">
@@ -366,7 +408,7 @@
       let tabs = '';
       let content = '';
       rutina.forEach((dia, index) => {
-        tabs += `<button class="tab" onclick="mostrarDia(${index})">${dia.dia}</button>`;
+        tabs += `<button class="tab" onclick="mostrarDia(${index})">Día ${index + 1}</button>`;
         content += `<div class="tab-content" id="dia${index}"><div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
         dia.ejercicios.forEach(ej => {
           content += `
@@ -473,4 +515,3 @@ const resetRutina = () => {
   </script>
 </body>
 </html>
-
