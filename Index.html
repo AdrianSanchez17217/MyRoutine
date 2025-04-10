@@ -8,6 +8,7 @@
     body {
       font-family: sans-serif;
       padding: 20px;
+      text-align: center;
     }
     h2 {
       margin-top: 40px;
@@ -23,132 +24,268 @@
     }
     .ejercicio input {
       flex: 1;
+      background-color: #f0f0f0;
+      border: none;
+      padding: 5px;
+      text-align: center;
     }
     select {
-      min-width: 100px;
+      min-width: 80px;
     }
     button {
       margin-top: 10px;
+    }
+    .seleccion-usuario {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 50px;
+    }
+    .seleccion-usuario button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .seleccion-usuario button:hover {
+      background-color: #45a049;
+    }
+    .volver {
+      margin-top: 20px;
+      font-size: 16px;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .rutina-predeterminada {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+    }
+    .rutina-predeterminada button {
+      background-color: #2196F3;
+      color: white;
+      padding: 15px 32px;
+      text-align: center;
+      font-size: 18px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    .rutina-predeterminada button:hover {
+      background-color: #0b7dda;
+    }
+    .lupa {
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 20px;
+    }
+    .editar-btn {
+      margin-top: 20px;
+      background-color: #ff9800;
+      padding: 10px;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .editar-btn:hover {
+      background-color: #f57c00;
     }
   </style>
 </head>
 <body>
 
-  <div class="dia">
-    <h2>📅 Día 1 – Push (Pecho, Hombros, Tríceps)</h2>
-    <div class="ejercicios">
-      <div class="ejercicio"><input value="Press banca plano con barra – 4x8"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Press inclinado con mancuernas – 4x10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Aperturas en máquina o polea – 3x12"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Press militar con barra – 4x8"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Elevaciones laterales – 3x15"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Fondos o extensión de tríceps en polea – 4x12"/><select></select><button onclick="eliminar(this)">❌</button></div>
+  <div id="seleccionUsuario">
+    <h1>Selecciona tu usuario</h1>
+    <div class="seleccion-usuario">
+      <button onclick="seleccionarUsuario('ADRIAN')">ADRIAN</button>
+      <button onclick="seleccionarUsuario('CRISTINA')">CRISTINA</button>
     </div>
-    <button onclick="agregar(this)">➕ Añadir ejercicio</button>
   </div>
 
-  <div class="dia">
-    <h2>📅 Día 2 – Pull (Espalda, Bíceps)</h2>
-    <div class="ejercicios">
-      <div class="ejercicio"><input value="Dominadas o jalones al pecho – 4x8-10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Remo con barra o mancuernas – 4x10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Jalón en polea con agarre cerrado – 3x12"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Curl bíceps con barra – 4x10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Curl martillo – 3x12"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Face pulls – 3x15"/><select></select><button onclick="eliminar(this)">❌</button></div>
+  <div id="seleccionRutina" style="display:none;">
+    <h1>Selecciona tu rutina</h1>
+    <div class="rutina-predeterminada">
+      <h2>Rutinas Predeterminadas</h2>
+      <button onclick="cargarRutina('Rutina 5 dias')">Rutina 5 días</button>
     </div>
-    <button onclick="agregar(this)">➕ Añadir ejercicio</button>
+    <div class="volver" onclick="volverSeleccionUsuario()">← Volver a seleccionar usuario</div>
   </div>
 
-  <div class="dia">
-    <h2>📅 Día 3 – Piernas</h2>
-    <div class="ejercicios">
-      <div class="ejercicio"><input value="Sentadillas – 4x8"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Prensa – 4x10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Peso muerto rumano – 4x10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Zancadas caminando – 3x12 por pierna"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Curl femoral – 3x12"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Elevaciones de talones (gemelos) – 4x15-20"/><select></select><button onclick="eliminar(this)">❌</button></div>
-    </div>
-    <button onclick="agregar(this)">➕ Añadir ejercicio</button>
-  </div>
+  <div id="rutina" style="display:none;">
+    <div class="volver" onclick="volverSeleccionRutina()">← Volver a seleccionar rutina</div>
 
-  <div class="dia">
-    <h2>📅 Día 4 – Tren Superior (Fuerza)</h2>
-    <div class="ejercicios">
-      <div class="ejercicio"><input value="Press banca plano – 4x6"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Dominadas lastradas o jalón – 4x6-8"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Remo con barra – 4x6"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Press militar – 4x6"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Curl bíceps + fondos (superserie) – 3x10 cada uno"/><select></select><button onclick="eliminar(this)">❌</button></div>
-    </div>
-    <button onclick="agregar(this)">➕ Añadir ejercicio</button>
-  </div>
+    <button id="editarBtn" class="editar-btn" onclick="toggleEditMode()">Editar</button>
 
-  <div class="dia">
-    <h2>📅 Día 5 – Tren Inferior (Fuerza / Glúteos / Core)</h2>
-    <div class="ejercicios">
-      <div class="ejercicio"><input value="Peso muerto convencional – 4x6"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Sentadilla frontal o hack – 4x8"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Hip thrust – 4x10"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Abductores en máquina – 3x15"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Plancha – 3x1 min"/><select></select><button onclick="eliminar(this)">❌</button></div>
-      <div class="ejercicio"><input value="Crunch en polea alta – 3x20"/><select></select><button onclick="eliminar(this)">❌</button></div>
-    </div>
-    <button onclick="agregar(this)">➕ Añadir ejercicio</button>
+    <div id="diasRutina"></div>
+
   </div>
 
   <script>
-    const llenarSelect = (select, valorGuardado) => {
-      for (let i = 0; i <= 100; i += 5) {
-        const option = document.createElement('option');
-        option.value = i;
-        option.textContent = i + ' kg';
-        if (valorGuardado == i) option.selected = true;
-        select.appendChild(option);
+    let usuarioSeleccionado = null;
+    let rutinaSeleccionada = null;
+    let isEditMode = false;
+
+    const seleccionarUsuario = (usuario) => {
+      usuarioSeleccionado = usuario;
+      document.getElementById('seleccionUsuario').style.display = 'none';
+      document.getElementById('seleccionRutina').style.display = 'block';
+    };
+
+    const volverSeleccionUsuario = () => {
+      document.getElementById('seleccionUsuario').style.display = 'block';
+      document.getElementById('seleccionRutina').style.display = 'none';
+    };
+
+    const cargarRutina = (rutina) => {
+      rutinaSeleccionada = rutina;
+      document.getElementById('seleccionRutina').style.display = 'none';
+      document.getElementById('rutina').style.display = 'block';
+      if (rutina === 'Rutina 5 dias') {
+        cargarRutina5Dias();
       }
     };
 
-    const guardarCambios = () => {
-      const data = [];
-      document.querySelectorAll('.dia').forEach(dia => {
-        const ejercicios = [];
-        dia.querySelectorAll('.ejercicio').forEach(div => {
-          ejercicios.push({
-            nombre: div.querySelector('input').value,
-            peso: div.querySelector('select').value
-          });
-        });
-        data.push(ejercicios);
-      });
-      localStorage.setItem('rutina', JSON.stringify(data));
+    const volverSeleccionRutina = () => {
+      document.getElementById('seleccionRutina').style.display = 'block';
+      document.getElementById('rutina').style.display = 'none';
     };
 
-    const cargarDatos = () => {
-      const data = JSON.parse(localStorage.getItem('rutina'));
-      if (!data) return;
-      document.querySelectorAll('.dia').forEach((dia, index) => {
-        const ejercicios = data[index];
-        const contenedor = dia.querySelector('.ejercicios');
-        contenedor.innerHTML = '';
-        ejercicios.forEach(ej => {
-          const div = document.createElement('div');
-          div.className = 'ejercicio';
-          const input = document.createElement('input');
-          input.value = ej.nombre;
-          input.onchange = guardarCambios;
-          const select = document.createElement('select');
-          llenarSelect(select, ej.peso);
-          select.onchange = guardarCambios;
-          const btn = document.createElement('button');
-          btn.textContent = '❌';
-          btn.onclick = () => { eliminar(btn); guardarCambios(); };
-          div.appendChild(input);
-          div.appendChild(select);
-          div.appendChild(btn);
-          contenedor.appendChild(div);
-        });
+    const toggleEditMode = () => {
+      if (isEditMode) {
+        if (confirm("¿Deseas guardar los cambios antes de salir?")) {
+          // Guardar cambios
+          guardarCambios();
+        }
+        document.getElementById('editarBtn').innerText = "Editar";
+        deshabilitarEdicion();
+      } else {
+        document.getElementById('editarBtn').innerText = "Guardar cambios";
+        habilitarEdicion();
+      }
+      isEditMode = !isEditMode;
+    };
+
+    const habilitarEdicion = () => {
+      const ejercicios = document.querySelectorAll('.ejercicio input, .ejercicio select');
+      ejercicios.forEach(ej => {
+        ej.disabled = false;
       });
+      const agregarBtn = document.querySelectorAll('button');
+      agregarBtn.forEach(btn => {
+        if (btn.innerText === '➕ Añadir ejercicio') {
+          btn.disabled = false;
+        } else if (btn.innerText === '❌') {
+          btn.disabled = false;
+        }
+      });
+    };
+
+    const deshabilitarEdicion = () => {
+      const ejercicios = document.querySelectorAll('.ejercicio input, .ejercicio select');
+      ejercicios.forEach(ej => {
+        ej.disabled = true;
+      });
+      const agregarBtn = document.querySelectorAll('button');
+      agregarBtn.forEach(btn => {
+        if (btn.innerText === '➕ Añadir ejercicio') {
+          btn.disabled = true;
+        } else if (btn.innerText === '❌') {
+          btn.disabled = true;
+        }
+      });
+    };
+
+    const cargarRutina5Dias = () => {
+      const rutina = [
+        { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
+            { nombre: "Press banca plano con barra" },
+            { nombre: "Press inclinado con mancuernas" },
+            { nombre: "Aperturas en máquina o polea" },
+            { nombre: "Press militar con barra" },
+            { nombre: "Elevaciones laterales" },
+            { nombre: "Fondos o extensión de tríceps en polea" }
+          ]
+        },
+        { dia: "Día 2 – Pull (Espalda, Bíceps)", ejercicios: [
+            { nombre: "Dominadas o jalones al pecho" },
+            { nombre: "Remo con barra o mancuernas" },
+            { nombre: "Jalón en polea con agarre cerrado" },
+            { nombre: "Curl bíceps con barra" },
+            { nombre: "Curl martillo" },
+            { nombre: "Face pulls" }
+          ]
+        },
+        { dia: "Día 3 – Piernas", ejercicios: [
+            { nombre: "Sentadillas" },
+            { nombre: "Prensa" },
+            { nombre: "Peso muerto rumano" },
+            { nombre: "Zancadas caminando" },
+            { nombre: "Curl femoral" },
+            { nombre: "Elevaciones de talones (gemelos)" }
+          ]
+        },
+        { dia: "Día 4 – Tren Superior (Fuerza)", ejercicios: [
+            { nombre: "Press banca plano" },
+            { nombre: "Dominadas lastradas o jalón" },
+            { nombre: "Remo con barra" },
+            { nombre: "Press militar" },
+            { nombre: "Curl bíceps + fondos (superserie)" }
+          ]
+        },
+        { dia: "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)", ejercicios: [
+            { nombre: "Peso muerto convencional" },
+            { nombre: "Sentadilla frontal o hack" },
+            { nombre: "Hip thrust" },
+            { nombre: "Abductores en máquina" },
+            { nombre: "Plancha" },
+            { nombre: "Crunch en polea alta" }
+          ]
+        }
+      ];
+
+      let content = '';
+      rutina.forEach(dia => {
+        content += `<div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
+        dia.ejercicios.forEach(ej => {
+          content += `
+            <div class="ejercicio">
+              <input value="${ej.nombre}" disabled />
+              <select class="kg" disabled>
+                ${generarOpcionesKG()}
+              </select>
+              <select class="seriesReps" disabled>
+                ${generarOpcionesSeriesReps()}
+              </select>
+              <button class="lupa" onclick="verImagen('${ej.nombre}')">🔍</button>
+              <button onclick="eliminar(this)" disabled>❌</button>
+            </div>
+          `;
+        });
+        content += '</div><button onclick="agregar(this)" disabled>➕ Añadir ejercicio</button></div>';
+      });
+      document.getElementById('diasRutina').innerHTML = content;
+    };
+
+    const generarOpcionesKG = () => {
+      const opciones = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+      return opciones.map(k => `<option value="${k}">${k} KG</option>`).join('');
+    };
+
+    const generarOpcionesSeriesReps = () => {
+      const opciones = [
+        "3x6", "3x8", "3x10", "3x15", 
+        "4x6", "4x8", "4x10", "4x12", 
+        "4x15", "3x1min", "4x1min", "3x2min", "4x2min"
+      ];
+      return opciones.map(o => `<option value="${o}">${o}</option>`).join('');
     };
 
     const agregar = (btn) => {
@@ -157,16 +294,20 @@
       div.className = 'ejercicio';
       const input = document.createElement('input');
       input.placeholder = 'Nuevo ejercicio';
-      input.onchange = guardarCambios;
-      const select = document.createElement('select');
-      llenarSelect(select);
-      select.onchange = guardarCambios;
-      const btnDel = document.createElement('button');
-      btnDel.textContent = '❌';
-      btnDel.onclick = () => { eliminar(btnDel); guardarCambios(); };
       div.appendChild(input);
-      div.appendChild(select);
-      div.appendChild(btnDel);
+      const selectKg = document.createElement('select');
+      selectKg.innerHTML = generarOpcionesKG();
+      div.appendChild(selectKg);
+      const selectReps = document.createElement('select');
+      selectReps.innerHTML = generarOpcionesSeriesReps();
+      div.appendChild(selectReps);
+      const lupa = document.createElement('button');
+      lupa.innerHTML = '🔍';
+      div.appendChild(lupa);
+      const eliminarBtn = document.createElement('button');
+      eliminarBtn.innerHTML = '❌';
+      eliminarBtn.onclick = () => div.remove();
+      div.appendChild(eliminarBtn);
       contenedor.appendChild(div);
     };
 
@@ -174,11 +315,15 @@
       btn.parentElement.remove();
     };
 
-    document.querySelectorAll('select').forEach(select => llenarSelect(select));
-    document.querySelectorAll('select').forEach(select => select.onchange = guardarCambios);
-    document.querySelectorAll('input').forEach(input => input.onchange = guardarCambios);
+    const verImagen = (ejercicio) => {
+      alert(`Imagen del ejercicio ${ejercicio}`);
+    };
 
-    cargarDatos();
+    const guardarCambios = () => {
+      alert("Cambios guardados correctamente!");
+    };
+
   </script>
+
 </body>
 </html>
