@@ -6,23 +6,21 @@
   <title>Rutina de Ejercicio</title>
   <style>
     body {
-     font-family: sans-serif;
-     padding: 20px;
-     text-align: center;
-     background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
-     background-size: cover;
-     background-position: center;
-     background-repeat: no-repeat; /* Evita que el fondo se repita */
-     background-attachment: fixed; /* Esto mantiene el fondo fijo mientras se hace scroll */
+      font-family: sans-serif;
+      padding: 10px;
+      text-align: center;
+      background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
     }
 
-     @media (max-width: 768px) {
-      /* Ajustes para pantallas más pequeñas (como móviles) */
-   body {
-    background-size: auto 100%; /* Ajusta el tamaño del fondo en dispositivos pequeños */
-  }
-}
-
+    @media (max-width: 768px) {
+      body {
+        background-size: auto 100%;
+      }
+    }
 
     h2 {
       margin-top: 40px;
@@ -40,26 +38,42 @@
     }
 
     .ejercicio input,
-    select {
+    .ejercicio select {
       font-weight: bold;
       color: black;
       background-color: transparent;
       border: none;
       padding: 2px;
       text-align: left;
-      font-size: 16px;   /* Cambia el tamaño del texto de los ejercicios */
+      font-size: 16px;
       width: auto;
     }
 
     .ejercicio select {
       max-width: 73px;
       text-align: center;
-     
+    }
+
+    .ejercicio textarea {
+      font-weight: bold;
+      color: black;
+      background-color: transparent;
+      border: none;
+      padding: 2px;
+      text-align: left;
+      font-size: 16px;
+      width: 100%;
+      resize: none;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.2em;
     }
 
     button {
       margin-top: 5px;
       padding: 3px 3px;
+      background-color: transparent;
+      border: none;
     }
 
     .lupa {
@@ -67,11 +81,13 @@
       margin-left: 5px;
       font-size: 14px;
       padding: 2px 2px;
+      background-color: transparent;
+      border: none;
     }
 
     .seleccion-usuario {
       display: flex;
-      flex-direction: column; /* Cambiado para que los botones estén uno debajo del otro */
+      flex-direction: column;
       align-items: center;
       margin-top: 50px;
     }
@@ -85,7 +101,7 @@
       border: none;
       cursor: pointer;
       border-radius: 5px;
-      margin-bottom: 20px; /* Añadido para que haya espacio entre los botones */
+      margin-bottom: 20px;
     }
 
     .seleccion-usuario button:hover {
@@ -97,7 +113,7 @@
       font-size: 18px;
       text-decoration: underline;
       cursor: pointer;
-      color: white;
+      color: black;
     }
 
     .rutina-predeterminada {
@@ -135,16 +151,31 @@
     }
 
     .editar-btn:hover {
-      background-color: #2196F3;
+      background-color: #0b7dda;
     }
 
-    .ejercicio input:disabled, 
+    .ejercicio input:disabled,
     .ejercicio select:disabled {
-     color: black; /* Cambia el color del texto a negro */
-     background-color: transparent; /* Mantiene el fondo transparente */
-     opacity: 1; /* Elimina la opacidad para que no se vea atenuado */
-   }
+      color: black;
+      background-color: transparent;
+      opacity: 1;
+      font-weight: bold;
+    }
 
+    .reset-btn {
+      margin-top: 20px;
+      background-color: #F44336;
+      color: white;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .reset-btn:hover {
+      background-color: #d32f2f;
+    }
   </style>
 </head>
 <body>
@@ -169,6 +200,7 @@
   <div id="rutina" style="display:none;">
     <div class="volver" onclick="volverSeleccionRutina()">← Volver a seleccionar rutina</div>
     <button id="editarBtn" class="editar-btn" onclick="toggleEditMode()">Editar</button>
+    <button class="reset-btn" onclick="resetRutina()">Resetear Rutina</button>
     <div id="diasRutina"></div>
   </div>
 
@@ -204,10 +236,7 @@
 
     const toggleEditMode = () => {
       if (isEditMode) {
-        if (confirm("¿Deseas guardar los cambios antes de salir?")) {
-          // Guardar cambios
-          guardarCambios();
-        }
+        guardarCambios();
         document.getElementById('editarBtn').innerText = "Editar";
         deshabilitarEdicion();
       } else {
@@ -248,7 +277,7 @@
     };
 
     const cargarRutina5Dias = () => {
-      const rutina = [
+      const rutina = JSON.parse(localStorage.getItem('rutina')) || [
         { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
             { nombre: "Press banca plano con barra" },
             { nombre: "Press inclinado con mancuernas" },
@@ -301,6 +330,7 @@
         dia.ejercicios.forEach(ej => {
           content += `
             <div class="ejercicio">
+              <button class="lupa" onclick="verEjercicio('${ej.nombre}')">🔍</button>
               <input value="${ej.nombre}" disabled />
               <select class="kg" disabled>
                 ${generarOpcionesKG()}
@@ -308,68 +338,61 @@
               <select class="seriesReps" disabled>
                 ${generarOpcionesSeriesReps()}
               </select>
-              <button class="lupa" onclick="verImagen('${ej.nombre}')">🔍</button>
-              <button onclick="eliminar(this)" disabled>❌</button>
-            </div>
-          `;
+              <button onclick="eliminarEjercicio(event)">❌</button>
+            </div>`;
         });
-        content += '</div><button onclick="agregar(this)" disabled>➕ Añadir ejercicio</button></div>';
+        content += '</div></div>';
       });
+
       document.getElementById('diasRutina').innerHTML = content;
     };
 
     const generarOpcionesKG = () => {
-      const opciones = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-      return opciones.map(k => `<option value="${k}">${k} kg</option>`).join('');
+      return `<option>5</option><option>10</option><option>15</option><option>20</option><option>25</option>`;
     };
 
     const generarOpcionesSeriesReps = () => {
-      const opciones = [
-        "3x6", "3x8", "3x10", "3x15", 
-        "4x6", "4x8", "4x10", "4x12", 
-        "4x15", "3x1'", "4x1'", "3x2'", "4x2'"
-      ];
-      return opciones.map(o => `<option value="${o}">${o}</option>`).join('');
+      return `<option>3x12</option><option>4x8</option><option>5x5</option>`;
     };
 
-    const agregar = (btn) => {
-      const contenedor = btn.previousElementSibling;
-      const div = document.createElement('div');
-      div.className = 'ejercicio';
-      const input = document.createElement('input');
-      input.placeholder = 'Nuevo ejercicio';
-      div.appendChild(input);
-      const selectKg = document.createElement('select');
-      selectKg.innerHTML = generarOpcionesKG();
-      div.appendChild(selectKg);
-      const selectReps = document.createElement('select');
-      selectReps.innerHTML = generarOpcionesSeriesReps();
-      div.appendChild(selectReps);
-      const lupa = document.createElement('button');
-      lupa.innerHTML = '🔍';
-      lupa.classList.add('lupa');
-      div.appendChild(lupa);
-      const eliminarBtn = document.createElement('button');
-      eliminarBtn.innerHTML = '❌';
-      eliminarBtn.onclick = () => div.remove();
-      div.appendChild(eliminarBtn);
-      contenedor.appendChild(div);
-    };
 
-    const eliminar = (btn) => {
-      btn.parentElement.remove();
-    };
 
-    const verImagen = (ejercicio) => {
-      window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${ejercicio}`);
+const verEjercicio = (ejercicio) => {
+  const query = encodeURIComponent(ejercicio);
+  window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
+};
+
+
+
+
+    const eliminarEjercicio = (e) => {
+      const ejercicioDiv = e.target.parentElement;
+      ejercicioDiv.remove();
+      guardarCambios(); // Guardar después de eliminar
     };
 
     const guardarCambios = () => {
-      alert("Cambios guardados correctamente!");
+      const dias = [];
+      document.querySelectorAll('.dia').forEach(diaDiv => {
+        const dia = { dia: diaDiv.querySelector('h2').innerText, ejercicios: [] };
+        diaDiv.querySelectorAll('.ejercicio').forEach(ejDiv => {
+          const ejercicio = {
+            nombre: ejDiv.querySelector('input').value,
+            kg: ejDiv.querySelector('.kg').value,
+            seriesReps: ejDiv.querySelector('.seriesReps').value
+          };
+          dia.ejercicios.push(ejercicio);
+        });
+        dias.push(dia);
+      });
+      localStorage.setItem('rutina', JSON.stringify(dias)); // Guardar los cambios en localStorage
     };
 
+    const resetRutina = () => {
+      localStorage.removeItem('rutina');
+      cargarRutina5Dias();
+    };
   </script>
 
 </body>
 </html>
-
