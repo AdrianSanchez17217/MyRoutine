@@ -5,34 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Rutina de Ejercicio</title>
   <style>
-body {
-  font-family: sans-serif;
-  padding: 10px;
-  text-align: center;
-  background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-color: white;
-}
+    body {
+      font-family: sans-serif;
+      padding: 10px;
+      text-align: center;
+      background-image: url('https://adriansanchez17217.github.io/IMAGEN/FONDO.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+    }
 
-@media (max-width: 768px) {
-  body {
-    background-size: contain; /* Ajuste para pantallas más pequeñas */
-  }
-}
+    @media (max-width: 768px) {
+      body {
+        background-size: 100% auto;
+      }
+    }
 
     h2 {
       margin-top: 40px;
     }
 
-    /* Estilos para las pestañas */
     .tabs {
       display: flex;
       justify-content: center;
       margin-bottom: 20px;
-      flex-wrap: wrap;  /* Para permitir que las pestañas se ajusten */
+      flex-wrap: wrap;
     }
 
     .tab {
@@ -45,15 +44,13 @@ color: white;
       margin: 5px;
       font-weight: bold;
       font-size: 16px;
-      flex: 1;  /* Se ajustará a la pantalla */
-     color: white;
+      flex: 1;
     }
 
     .tab:hover {
       background-color: #0b7dda;
     }
 
-    /* Estilos para el contenido de cada día */
     .tab-content {
       display: none;
     }
@@ -90,21 +87,20 @@ color: white;
       text-align: center;
     }
 
-.ejercicio textarea {
-  font-weight: bold;
-  color: white;
-  background-color: transparent;
-  border: none;
-  padding: 2px;
-  text-align: left;
-  font-size: 16px;
-  width: 100%;  /* Ajusta el ancho al 100% */
-  resize: none;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  line-height: 1.2em;
-}
-
+    .ejercicio textarea {
+      font-weight: bold;
+      color: white;
+      background-color: transparent;
+      border: none;
+      padding: 2px;
+      text-align: left;
+      font-size: 16px;
+      width: 100%;
+      resize: none;
+      word-break: break-word;
+      overflow-wrap: break-word;
+      line-height: 1.2em;
+    }
 
     button {
       margin-top: 5px;
@@ -127,7 +123,7 @@ color: white;
       flex-direction: column;
       align-items: center;
       margin-top: 50px;
-color: white;
+      color: white;
     }
 
     .seleccion-usuario button {
@@ -144,7 +140,7 @@ color: white;
 
     .seleccion-usuario button:hover {
       background-color: #0b7dda;
-     color: white;
+      color: white;
     }
 
     .volver {
@@ -217,7 +213,6 @@ color: white;
       background-color: #d32f2f;
     }
 
-    /* Ajustes específicos para #diasRutina */
     #diasRutina {
       display: flex;
       flex-wrap: wrap;
@@ -226,18 +221,16 @@ color: white;
       margin-top: 30px;
     }
 
-    /* Ajustes para el diseño en pantallas más pequeñas */
     @media (max-width: 768px) {
+      .tab {
+        width: auto;
+        margin: 5px 0;
+      }
+      .dia {
+        width: 100%;
+      }
+    }
 
-  .tab {
-    width: auto;  /* No forzamos el 100% de los botones */
-    margin: 5px 0;
-  }
-}
-
-
-
-    /* Para pantallas grandes */
     @media (min-width: 769px) {
       .dia {
         width: 48%;
@@ -245,9 +238,7 @@ color: white;
     }
   </style>
 </head>
-
 <body>
-
   <div id="seleccionUsuario">
     <h1>Selecciona tu usuario</h1>
     <div class="seleccion-usuario">
@@ -269,241 +260,188 @@ color: white;
     <div class="volver" onclick="volverSeleccionRutina()">← Volver a seleccionar rutina</div>
     <button id="editarBtn" class="editar-btn" onclick="toggleEditMode()">Editar</button>
     <button class="reset-btn" onclick="resetRutina()">Resetear Rutina</button>
-
-    <!-- Tabs para cada día -->
     <div class="tabs" id="tabs"></div>
-
-    <!-- Contenido de cada día -->
     <div id="diasRutina"></div>
   </div>
 
-  <script>
-    let usuarioSeleccionado = null;
-    let rutinaSeleccionada = null;
-    let isEditMode = false;
+<script>
+  let usuarioSeleccionado = null;
+  let rutinaSeleccionada = null;
+  let isEditMode = false;
 
-    const seleccionarUsuario = (usuario) => {
-      usuarioSeleccionado = usuario;
-      document.getElementById('seleccionUsuario').style.display = 'none';
-      document.getElementById('seleccionRutina').style.display = 'block';
-    };
+  const seleccionarUsuario = (usuario) => {
+    usuarioSeleccionado = usuario;
+    document.getElementById('seleccionUsuario').style.display = 'none';
+    document.getElementById('seleccionRutina').style.display = 'block';
+  };
 
-    const volverSeleccionUsuario = () => {
-      document.getElementById('seleccionUsuario').style.display = 'block';
-      document.getElementById('seleccionRutina').style.display = 'none';
-    };
+  const volverSeleccionUsuario = () => {
+    document.getElementById('seleccionUsuario').style.display = 'block';
+    document.getElementById('seleccionRutina').style.display = 'none';
+  };
 
-    const cargarRutina = (rutina) => {
-      rutinaSeleccionada = rutina;
-      document.getElementById('seleccionRutina').style.display = 'none';
-      document.getElementById('rutina').style.display = 'block';
-      if (rutina === 'Rutina 5 días') {
-        cargarRutina5Dias();
-      }
-    };
+  const cargarRutina = (rutina) => {
+    rutinaSeleccionada = rutina;
+    document.getElementById('seleccionRutina').style.display = 'none';
+    document.getElementById('rutina').style.display = 'block';
+    if (rutina === 'Rutina 5 días') {
+      cargarRutina5Dias();
+    }
+  };
 
-    const volverSeleccionRutina = () => {
-      document.getElementById('seleccionRutina').style.display = 'block';
-      document.getElementById('rutina').style.display = 'none';
-    };
+  const volverSeleccionRutina = () => {
+    document.getElementById('seleccionRutina').style.display = 'block';
+    document.getElementById('rutina').style.display = 'none';
+  };
 
-    const toggleEditMode = () => {
-      if (isEditMode) {
-        guardarCambios();
-        document.getElementById('editarBtn').innerText = "Editar";
-        deshabilitarEdicion();
-      } else {
-        document.getElementById('editarBtn').innerText = "Guardar cambios";
-        habilitarEdicion();
-      }
-      isEditMode = !isEditMode;
-    };
+  const toggleEditMode = () => {
+    if (isEditMode) {
+      guardarEstadoPagina();
+      document.getElementById('editarBtn').innerText = "Editar";
+      deshabilitarEdicion();
+    } else {
+      document.getElementById('editarBtn').innerText = "Guardar cambios";
+      habilitarEdicion();
+    }
+    isEditMode = !isEditMode;
+  };
 
-    const habilitarEdicion = () => {
-      const ejercicios = document.querySelectorAll('.ejercicio input, .ejercicio select');
-      ejercicios.forEach(ej => {
-        ej.disabled = false;
+  const habilitarEdicion = () => {
+    document.querySelectorAll('.ejercicio input, .ejercicio select').forEach(el => el.disabled = false);
+    document.querySelectorAll('.ejercicio button').forEach(btn => btn.disabled = false);
+  };
+
+  const deshabilitarEdicion = () => {
+    document.querySelectorAll('.ejercicio input, .ejercicio select').forEach(el => el.disabled = true);
+    document.querySelectorAll('.ejercicio button').forEach(btn => btn.disabled = true);
+  };
+
+  const cargarRutina5Dias = () => {
+    let rutinaGuardada = JSON.parse(localStorage.getItem('rutinaCompleta'));
+    const diasPorDefecto = [
+      { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
+          { nombre: "Press banca plano con barra", kg: "", seriesReps: "" },
+          { nombre: "Press inclinado con mancuernas", kg: "", seriesReps: "" },
+          { nombre: "Aperturas en máquina o polea", kg: "", seriesReps: "" },
+          { nombre: "Press militar con barra", kg: "", seriesReps: "" },
+          { nombre: "Elevaciones laterales", kg: "", seriesReps: "" },
+          { nombre: "Fondos o extensión de tríceps en polea", kg: "", seriesReps: "" }
+        ]},
+      { dia: "Día 2 – Pull (Espalda, Bíceps)", ejercicios: [
+          { nombre: "Dominadas o jalones al pecho", kg: "", seriesReps: "" },
+          { nombre: "Remo con barra o mancuernas", kg: "", seriesReps: "" },
+          { nombre: "Jalón en polea con agarre cerrado", kg: "", seriesReps: "" },
+          { nombre: "Curl bíceps con barra", kg: "", seriesReps: "" },
+          { nombre: "Curl martillo", kg: "", seriesReps: "" },
+          { nombre: "Face pulls", kg: "", seriesReps: "" }
+        ]},
+      { dia: "Día 3 – Piernas", ejercicios: [
+          { nombre: "Sentadillas", kg: "", seriesReps: "" },
+          { nombre: "Prensa", kg: "", seriesReps: "" },
+          { nombre: "Peso muerto rumano", kg: "", seriesReps: "" },
+          { nombre: "Zancadas caminando", kg: "", seriesReps: "" },
+          { nombre: "Curl femoral", kg: "", seriesReps: "" },
+          { nombre: "Elevaciones de talones (gemelos)", kg: "", seriesReps: "" }
+        ]},
+      { dia: "Día 4 – Tren Superior (Fuerza)", ejercicios: [
+          { nombre: "Press banca plano", kg: "", seriesReps: "" },
+          { nombre: "Dominadas lastradas o jalón", kg: "", seriesReps: "" },
+          { nombre: "Remo con barra", kg: "", seriesReps: "" },
+          { nombre: "Press militar", kg: "", seriesReps: "" },
+          { nombre: "Curl bíceps + fondos (superserie)", kg: "", seriesReps: "" }
+        ]},
+      { dia: "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)", ejercicios: [
+          { nombre: "Peso muerto convencional", kg: "", seriesReps: "" },
+          { nombre: "Sentadilla frontal o hack", kg: "", seriesReps: "" },
+          { nombre: "Hip thrust", kg: "", seriesReps: "" },
+          { nombre: "Abductores en máquina", kg: "", seriesReps: "" },
+          { nombre: "Plancha", kg: "", seriesReps: "" },
+          { nombre: "Crunch en polea alta", kg: "", seriesReps: "" }
+        ]}
+    ];
+
+    rutinaGuardada = rutinaGuardada || diasPorDefecto;
+
+    let tabs = '';
+    let content = '';
+    rutinaGuardada.forEach((dia, index) => {
+      tabs += `<button class="tab" onclick="mostrarDia(${index})">Día ${index + 1}</button>`;
+      content += `<div class="tab-content" id="dia${index}"><div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
+      dia.ejercicios.forEach(ej => {
+        content += `
+          <div class="ejercicio">
+            <button class="lupa" onclick="verEjercicio('${ej.nombre}')">🔍</button>
+            <input value="${ej.nombre}" disabled />
+            <select class="kg" disabled>${generarOpcionesKG(ej.kg)}</select>
+            <select class="seriesReps" disabled>${generarOpcionesSeriesReps(ej.seriesReps)}</select>
+            <button onclick="eliminarEjercicio(event)">❌</button>
+          </div>`;
       });
-      const agregarBtn = document.querySelectorAll('button');
-      agregarBtn.forEach(btn => {
-        if (btn.innerText === '➕ Añadir ejercicio') {
-          btn.disabled = false;
-        } else if (btn.innerText === '❌') {
-          btn.disabled = false;
-        }
-      });
-    };
-
-    const deshabilitarEdicion = () => {
-      const ejercicios = document.querySelectorAll('.ejercicio input, .ejercicio select');
-      ejercicios.forEach(ej => {
-        ej.disabled = true;
-      });
-      const agregarBtn = document.querySelectorAll('button');
-      agregarBtn.forEach(btn => {
-        if (btn.innerText === '➕ Añadir ejercicio') {
-          btn.disabled = true;
-        } else if (btn.innerText === '❌') {
-          btn.disabled = true;
-        }
-      });
-    };
-
-    const cargarRutina5Dias = () => {
-      const rutina = JSON.parse(localStorage.getItem('rutina')) || [
-        { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
-            { nombre: "Press banca plano con barra" },
-            { nombre: "Press inclinado con mancuernas" },
-            { nombre: "Aperturas en máquina o polea" },
-            { nombre: "Press militar con barra" },
-            { nombre: "Elevaciones laterales" },
-            { nombre: "Fondos o extensión de tríceps en polea" }
-          ]
-        },
-        { dia: "Día 2 – Pull (Espalda, Bíceps)", ejercicios: [
-            { nombre: "Dominadas o jalones al pecho" },
-            { nombre: "Remo con barra o mancuernas" },
-            { nombre: "Jalón en polea con agarre cerrado" },
-            { nombre: "Curl bíceps con barra" },
-            { nombre: "Curl martillo" },
-            { nombre: "Face pulls" }
-          ]
-        },
-        { dia: "Día 3 – Piernas", ejercicios: [
-            { nombre: "Sentadillas" },
-            { nombre: "Prensa" },
-            { nombre: "Peso muerto rumano" },
-            { nombre: "Zancadas caminando" },
-            { nombre: "Curl femoral" },
-            { nombre: "Elevaciones de talones (gemelos)" }
-          ]
-        },
-        { dia: "Día 4 – Tren Superior (Fuerza)", ejercicios: [
-            { nombre: "Press banca plano" },
-            { nombre: "Dominadas lastradas o jalón" },
-            { nombre: "Remo con barra" },
-            { nombre: "Press militar" },
-            { nombre: "Curl bíceps + fondos (superserie)" }
-          ]
-        },
-        { dia: "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)", ejercicios: [
-            { nombre: "Peso muerto convencional" },
-            { nombre: "Sentadilla frontal o hack" },
-            { nombre: "Hip thrust" },
-            { nombre: "Abductores en máquina" },
-            { nombre: "Plancha" },
-            { nombre: "Crunch en polea alta" }
-          ]
-        }
-      ];
-
-      let tabs = '';
-      let content = '';
-      rutina.forEach((dia, index) => {
-        tabs += `<button class="tab" onclick="mostrarDia(${index})">Día ${index + 1}</button>`;
-        content += `<div class="tab-content" id="dia${index}"><div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
-        dia.ejercicios.forEach(ej => {
-          content += `
-            <div class="ejercicio">
-              <button class="lupa" onclick="verEjercicio('${ej.nombre}')">🔍</button>
-              <input value="${ej.nombre}" disabled />
-              <select class="kg" disabled>
-                ${generarOpcionesKG()}
-              </select>
-              <select class="seriesReps" disabled>
-                ${generarOpcionesSeriesReps()}
-              </select>
-              <button onclick="eliminarEjercicio(event)">❌</button>
-            </div>`;
-        });
-        content += '</div></div></div>';
-      });
-
-      document.getElementById('tabs').innerHTML = tabs;
-      document.getElementById('diasRutina').innerHTML = content;
-    };
-
-    const mostrarDia = (index) => {
-      const allTabs = document.querySelectorAll('.tab-content');
-      allTabs.forEach(tab => tab.classList.remove('active'));
-      document.getElementById(`dia${index}`).classList.add('active');
-    };
-
-const generarOpcionesKG = () => {
-  let opciones = '';
-  for (let i = 5; i <= 100; i += 5) {
-    opciones += `<option>${i} kg</option>`;
-  }
-  return opciones;
-};
-
-const generarOpcionesSeriesReps = () => {
-  return `
-    <option>3x6</option>
-    <option>3x8</option>
-    <option>3x10</option>
-    <option>3x12</option>
-    <option>3x15</option>
-    <option>4x6</option>
-    <option>4x8</option>
-    <option>4x10</option>
-    <option>4x12</option>
-    <option>4x15</option>
-    <option>3x1'</option>
-    <option>3x2'</option>
-    <option>4x1'</option>
-    <option>4x2'</option>
-  `;
-};
-
-const verEjercicio = (ejercicio) => {
-  const query = encodeURIComponent(ejercicio);
-  window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
-};
-
-const eliminarEjercicio = (e) => {
-  const ejercicioDiv = e.target.parentElement;
-  ejercicioDiv.remove();
-  guardarCambios(); // Guardar después de eliminar
-};
-
-const guardarCambios = () => {
-  const dias = [];
-  
-  // Itera sobre cada día de la rutina
-  document.querySelectorAll('.dia').forEach(diaDiv => {
-    const dia = { 
-      dia: diaDiv.querySelector('h2').innerText, 
-      ejercicios: [] 
-    };
-    
-    // Itera sobre cada ejercicio en ese día
-    diaDiv.querySelectorAll('.ejercicio').forEach(ejDiv => {
-      const ejercicio = {
-        nombre: ejDiv.querySelector('input').value, // Nombre del ejercicio
-
-        // Aquí guardamos los valores de los desplegables
-        peso: ejDiv.querySelector('.peso-select') ? ejDiv.querySelector('.peso-select').value : '',  // Selección del peso
-        seriesReps: ejDiv.querySelector('.series-reps-select') ? ejDiv.querySelector('.series-reps-select').value : ''  // Selección de series y repeticiones
-      };
-
-      dia.ejercicios.push(ejercicio);
+      content += '</div></div></div>';
     });
 
-    dias.push(dia);
-  });
+    document.getElementById('tabs').innerHTML = tabs;
+    document.getElementById('diasRutina').innerHTML = content;
 
-  // Guardamos los datos en el localStorage
-  localStorage.setItem('rutina', JSON.stringify(dias));
-};
+    mostrarDia(0);
+  };
 
-const resetRutina = () => {
-  if (confirm("¿Seguro que quieres resetear la rutina?")) {
-    localStorage.removeItem('rutina');
-    cargarRutina5Dias(); // Recargar rutina por defecto
-  }
-};
+  const mostrarDia = (index) => {
+    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+    document.getElementById(`dia${index}`).classList.add('active');
+  };
 
-  </script>
+  const guardarEstadoPagina = () => {
+    const dias = [];
+    document.querySelectorAll('.dia').forEach(diaDiv => {
+      const titulo = diaDiv.querySelector('h2').textContent.replace('📅 ', '');
+      const ejercicios = [];
+      diaDiv.querySelectorAll('.ejercicio').forEach(ejDiv => {
+        ejercicios.push({
+          nombre: ejDiv.querySelector('input').value,
+          kg: ejDiv.querySelector('.kg').value,
+          seriesReps: ejDiv.querySelector('.seriesReps').value
+        });
+      });
+      dias.push({ dia: titulo, ejercicios });
+    });
+    localStorage.setItem('rutinaCompleta', JSON.stringify(dias));
+  };
+
+  const generarOpcionesKG = (valorSeleccionado = "") => {
+    let opciones = '';
+    for (let i = 5; i <= 100; i += 5) {
+      const value = `${i} kg`;
+      opciones += `<option${value === valorSeleccionado ? ' selected' : ''}>${value}</option>`;
+    }
+    return opciones;
+  };
+
+  const generarOpcionesSeriesReps = (valorSeleccionado = "") => {
+    const opcionesBase = ["3x6", "3x8", "3x10", "3x12", "3x15", "4x6", "4x8", "4x10", "4x12", "4x15", "3x1'", "3x2'", "4x1'", "4x2'"];
+    return opcionesBase.map(op => `<option${op === valorSeleccionado ? ' selected' : ''}>${op}</option>`).join('');
+  };
+
+  const verEjercicio = (ejercicio) => {
+    const query = encodeURIComponent(ejercicio);
+    window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
+  };
+
+  const eliminarEjercicio = (e) => {
+    e.target.closest('.ejercicio').remove();
+    guardarEstadoPagina();
+  };
+
+  const resetRutina = () => {
+    if (confirm("¿Seguro que quieres resetear la rutina?")) {
+      localStorage.removeItem('rutinaCompleta');
+      cargarRutina5Dias();
+    }
+  };
+
+  window.onload = () => {
+    cargarRutina5Dias();
+  };
+</script>
 </body>
 </html>
