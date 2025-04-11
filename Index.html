@@ -64,11 +64,12 @@
     }
 
     .ejercicio {
-      display: flex;
-      gap: 2px;
-      align-items: center;
-      margin-bottom: 5px;
-    }
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+  gap: 8px; /* Espacio entre elementos */
+}
+
 
     .ejercicio input,
     .ejercicio select {
@@ -84,25 +85,29 @@
     }
 
     .ejercicio select {
-      max-width: 70px;
-      text-align: center;
-     font-size: 14px;
-    }
+  max-width: 70px;
+  text-align: center;
+  font-size: 14px;
+  height: 2.4em; /* Igual altura que el texto */
+}
 
-    .ejercicio textarea {
-      font-weight: bold;
-      color: white;
-      background-color: transparent;
-      border: none;
-      padding: 2px;
-      text-align: left;
-      font-size: 14px;
-      width-min: 400px;
-      resize: none;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      line-height: 1.2em;
-    }
+.ejercicio textarea {
+  font-weight: bold;
+  color: white;
+  background-color: transparent;
+  border: none;
+  padding: 2px;
+  font-size: 14px;
+  line-height: 1.2em;
+  height: 2.6em; /* Fuerza el alto de 2 líneas */
+  resize: none;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal; /* Permite saltos de línea */
+  width: 180px; /* Ajusta según el diseño */
+}
+
 
     button {
       margin: 0px;
@@ -113,7 +118,7 @@
 
     .lupa {
       cursor: pointer;
-      margin: 0px;
+      margin-left: 0px;
       font-size: 14px;
       padding: 2px 5px;
       background-color: transparent;
@@ -314,9 +319,10 @@
   };
 
   const deshabilitarEdicion = () => {
-    document.querySelectorAll('.ejercicio input, .ejercicio select').forEach(el => el.disabled = true);
-    document.querySelectorAll('.ejercicio button').forEach(btn => btn.disabled = true);
-  };
+  document.querySelectorAll('.ejercicio input, .ejercicio select').forEach(el => el.disabled = true);
+  document.querySelectorAll('.ejercicio button:not(.lupa)').forEach(btn => btn.disabled = true);
+};
+
 
   const cargarRutina5Dias = () => {
     let rutinaGuardada = JSON.parse(localStorage.getItem('rutinaCompleta'));
