@@ -245,205 +245,129 @@
   </style>
 </head>
 <body>
-  <div id="seleccionUsuario">
-    <h1>Selecciona tu usuario</h1>
-    <div class="seleccion-usuario">
-      <button onclick="seleccionarUsuario('ADRIAN')">ADRIAN</button>
-      <button onclick="seleccionarUsuario('CRISTINA')">CRISTINA</button>
-    </div>
-  </div>
-
-  <div id="seleccionRutina" style="display:none;">
+  <div id="seleccionRutina">
     <h1>Selecciona tu rutina</h1>
     <div class="rutina-predeterminada">
       <h2>Rutinas Predeterminadas</h2>
       <button onclick="cargarRutina('Rutina 5 días')">Rutina 5 días</button>
     </div>
-    <div class="volver" onclick="volverSeleccionUsuario()">← Volver a seleccionar usuario</div>
   </div>
 
   <div id="rutina" style="display:none;">
     <div class="volver" onclick="volverSeleccionRutina()">← Volver a seleccionar rutina</div>
-    <button id="editarBtn" class="editar-btn" onclick="toggleEditMode()">Editar</button>
-    <button class="reset-btn" onclick="resetRutina()">Resetear Rutina</button>
     <div class="tabs" id="tabs"></div>
     <div id="diasRutina"></div>
   </div>
 
-<script>
-  let usuarioSeleccionado = null;
-  let rutinaSeleccionada = null;
-  let isEditMode = false;
+  <script>
+    let rutinaSeleccionada = null;
 
-  const seleccionarUsuario = (usuario) => {
-    usuarioSeleccionado = usuario;
-    document.getElementById('seleccionUsuario').style.display = 'none';
-    document.getElementById('seleccionRutina').style.display = 'block';
-  };
+    const cargarRutina = (rutina) => {
+      rutinaSeleccionada = rutina;
+      document.getElementById('seleccionRutina').style.display = 'none';
+      document.getElementById('rutina').style.display = 'block';
+      if (rutina === 'Rutina 5 días') {
+        cargarRutina5Dias();
+      }
+    };
 
-  const volverSeleccionUsuario = () => {
-    document.getElementById('seleccionUsuario').style.display = 'block';
-    document.getElementById('seleccionRutina').style.display = 'none';
-  };
+    const volverSeleccionRutina = () => {
+      document.getElementById('seleccionRutina').style.display = 'block';
+      document.getElementById('rutina').style.display = 'none';
+    };
 
-  const cargarRutina = (rutina) => {
-    rutinaSeleccionada = rutina;
-    document.getElementById('seleccionRutina').style.display = 'none';
-    document.getElementById('rutina').style.display = 'block';
-    if (rutina === 'Rutina 5 días') {
-      cargarRutina5Dias();
-    }
-  };
+    const cargarRutina5Dias = () => {
+      let rutinaGuardada = JSON.parse(localStorage.getItem('rutinaCompleta'));
+      const diasPorDefecto = [
+        { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
+            { nombre: "Press banca plano mancuernas", kg: "14 kg", seriesReps: "4x8" },
+            { nombre: "Press inclinado mancuernas", kg: "12 kg", seriesReps: "4x10" },
+            { nombre: "Aperturas máquina o polea", kg: "23 kg", seriesReps: "3x12" },
+            { nombre: "Press militar mancuernas", kg: "10 kg", seriesReps: "4x8" },
+            { nombre: "Elevaciones laterales", kg: " 4 kg", seriesReps: "3x12" },
+            { nombre: "Extensión tríceps polea", kg: "14 kg", seriesReps: "3x12" }
+          ]},
+        { dia: "Día 2 – Pull (Espalda, Bíceps)", ejercicios: [
+            { nombre: "Jalones al pecho", kg: "45 kg", seriesReps: "4x10" },
+            { nombre: "Remo con polea", kg: "27 kg", seriesReps: "4x10" },
+            { nombre: "Jalón agarre cerrado", kg: "45 kg", seriesReps: "3x10" },
+            { nombre: "Curl bíceps mancuernas", kg: "5 kg", seriesReps: "3x10" },
+            { nombre: "Curl martillo", kg: "6 kg", seriesReps: "3x12" },
+            { nombre: "Face pulls", kg: "", seriesReps: "3x12" }
+          ]},
+        { dia: "Día 3 – Piernas", ejercicios: [
+            { nombre: "Sentadillas", kg: "", seriesReps: "4x8" },
+            { nombre: "Prensa", kg: "60 kg", seriesReps: "4x12" },
+            { nombre: "Peso muerto rumano", kg: "", seriesReps: "3x15" },
+            { nombre: "Zancadas caminando", kg: "", seriesReps: "3x12" },
+            { nombre: "Curl femoral", kg: "27 kg", seriesReps: "3x12" },
+            { nombre: "Elevaciones de gemelos", kg: "", seriesReps: "4x15" }
+          ]},
+        { dia: "Día 4 – Tren Superior (Fuerza)", ejercicios: [
+            { nombre: "Press banca plano", kg: "14 kg", seriesReps: "4x8" },
+            { nombre: "Jalones al pecho", kg: " 45 kg", seriesReps: "4x8" },
+            { nombre: "Remo con polea", kg: " 27 kg", seriesReps: "4x8" },
+            { nombre: "Press militar", kg: "10 kg", seriesReps: "4x8" },
+            { nombre: "Curl bíceps", kg: "6 kg", seriesReps: "3x10" }
+          ]},
+        { dia: "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)", ejercicios: [
+            { nombre: "Peso muerto convencional", kg: "", seriesReps: "4x6" },
+            { nombre: "Sentadilla frontal o hack", kg: "", seriesReps: "4x8" },
+            { nombre: "Hip thrust", kg: "", seriesReps: "4x10" },
+            { nombre: "Abductores en máquina", kg: "", seriesReps: "3x12" },
+            { nombre: "Plancha", kg: "", seriesReps: "3x1'" },
+            { nombre: "Crunch en polea alta", kg: "", seriesReps: "3x15" }
+          ]}
+      ];
 
-  const volverSeleccionRutina = () => {
-    document.getElementById('seleccionRutina').style.display = 'block';
-    document.getElementById('rutina').style.display = 'none';
-  };
+      rutinaGuardada = rutinaGuardada || diasPorDefecto;
 
-  const toggleEditMode = () => {
-    if (isEditMode) {
-      guardarEstadoPagina();
-      document.getElementById('editarBtn').innerText = "Editar";
-      deshabilitarEdicion();
-    } else {
-      document.getElementById('editarBtn').innerText = "Guardar cambios";
-      habilitarEdicion();
-    }
-    isEditMode = !isEditMode;
-  };
-
-  const habilitarEdicion = () => {
-    document.querySelectorAll('.ejercicio input, .ejercicio select').forEach(el => el.disabled = false);
-    document.querySelectorAll('.ejercicio button').forEach(btn => btn.disabled = false);
-  };
-
-  const deshabilitarEdicion = () => {
-  document.querySelectorAll('.ejercicio input, .ejercicio select').forEach(el => el.disabled = true);
-  document.querySelectorAll('.ejercicio button:not(.lupa)').forEach(btn => btn.disabled = true);
-};
-
-
-  const cargarRutina5Dias = () => {
-    let rutinaGuardada = JSON.parse(localStorage.getItem('rutinaCompleta'));
-    const diasPorDefecto = [
-      { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
-          { nombre: "Press banca plano mancuernas", kg: "14 kg", seriesReps: "4x8" },
-          { nombre: "Press inclinado mancuernas", kg: "12 kg", seriesReps: "4x10" },
-          { nombre: "Aperturas máquina o polea", kg: "23 kg", seriesReps: "3x12" },
-          { nombre: "Press militar mancuernas", kg: "10 kg", seriesReps: "4x8" },
-          { nombre: "Elevaciones laterales", kg: "4 kg", seriesReps: "3x12" },
-          { nombre: "Extensión tríceps polea", kg: "14 kg", seriesReps: "3x12" }
-        ]},
-      { dia: "Día 2 – Pull (Espalda, Bíceps)", ejercicios: [
-          { nombre: "Jalones al pecho", kg: "45 kg", seriesReps: "4x10" },
-          { nombre: "Remo con polea", kg: "27 kg", seriesReps: "4x10" },
-          { nombre: "Jalón agarre cerrado", kg: "45 kg", seriesReps: "3x10" },
-          { nombre: "Curl bíceps mancuernas", kg: "5 kg", seriesReps: "3x10" },
-          { nombre: "Curl martillo", kg: "6 kg", seriesReps: "3x12" },
-          { nombre: "Face pulls", kg: "", seriesReps: "3x12" }
-        ]},
-      { dia: "Día 3 – Piernas", ejercicios: [
-          { nombre: "Sentadillas", kg: "", seriesReps: "4x8" },
-          { nombre: "Prensa", kg: "60 kg", seriesReps: "4x12" },
-          { nombre: "Peso muerto rumano", kg: "", seriesReps: "3x15" },
-          { nombre: "Zancadas caminando", kg: "", seriesReps: "3x12" },
-          { nombre: "Curl femoral", kg: "27 kg", seriesReps: "3x12" },
-          { nombre: "Elevaciones de gemelos", kg: "", seriesReps: "4x15" }
-        ]},
-      { dia: "Día 4 – Tren Superior (Fuerza)", ejercicios: [
-          { nombre: "Press banca plano", kg: "14 kg", seriesReps: "4x8" },
-          { nombre: "Jalones al pecho", kg: "45 kg", seriesReps: "4x8" },
-          { nombre: "Remo con polea", kg: "27 kg", seriesReps: "4x8" },
-          { nombre: "Press militar", kg: "10 kg", seriesReps: "4x8" },
-          { nombre: "Curl bíceps", kg: "6 kg", seriesReps: "3x10" }
-        ]},
-      { dia: "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)", ejercicios: [
-          { nombre: "Peso muerto convencional", kg: "", seriesReps: "4x6" },
-          { nombre: "Sentadilla frontal o hack", kg: "", seriesReps: "4x8" },
-          { nombre: "Hip thrust", kg: "", seriesReps: "4x10" },
-          { nombre: "Abductores en máquina", kg: "", seriesReps: "3x12" },
-          { nombre: "Plancha", kg: "", seriesReps: "3x1'" },
-          { nombre: "Crunch en polea alta", kg: "", seriesReps: "3x15" }
-        ]}
-    ];
-
-    rutinaGuardada = rutinaGuardada || diasPorDefecto;
-
-    let tabs = '';
-    let content = '';
-    rutinaGuardada.forEach((dia, index) => {
-      tabs += `<button class="tab" onclick="mostrarDia(${index})">Día ${index + 1}</button>`;
-      content += `<div class="tab-content" id="dia${index}"><div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
-      dia.ejercicios.forEach(ej => {
-        content += `
-          <div class="ejercicio">
-            <button class="lupa" onclick="verEjercicio('${ej.nombre}')">🔍</button>
-            <input value="${ej.nombre}" disabled />
-            <select class="kg" disabled>${generarOpcionesKG(ej.kg)}</select>
-            <select class="seriesReps" disabled>${generarOpcionesSeriesReps(ej.seriesReps)}</select>
-          </div>`;
-      });
-      content += '</div></div></div>';
-    });
-
-    document.getElementById('tabs').innerHTML = tabs;
-    document.getElementById('diasRutina').innerHTML = content;
-
-    mostrarDia(0);
-  };
-
-  const mostrarDia = (index) => {
-    document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-    document.getElementById(`dia${index}`).classList.add('active');
-  };
-
-  const guardarEstadoPagina = () => {
-    const dias = [];
-    document.querySelectorAll('.dia').forEach(diaDiv => {
-      const titulo = diaDiv.querySelector('h2').textContent.replace('📅 ', '');
-      const ejercicios = [];
-      diaDiv.querySelectorAll('.ejercicio').forEach(ejDiv => {
-        ejercicios.push({
-          nombre: ejDiv.querySelector('input').value,
-          kg: ejDiv.querySelector('.kg').value,
-          seriesReps: ejDiv.querySelector('.seriesReps').value
+      let tabs = '';
+      let content = '';
+      rutinaGuardada.forEach((dia, index) => {
+        tabs += `<button class="tab" onclick="mostrarDia(${index})">Día ${index + 1}</button>`;
+        content += `<div class="tab-content" id="dia${index}"><div class="dia"><h2>📅 ${dia.dia}</h2><div class="ejercicios">`;
+        dia.ejercicios.forEach(ej => {
+          content += `
+            <div class="ejercicio">
+              <button class="lupa" onclick="verEjercicio('${ej.nombre}')">🔍</button>
+              <input value="${ej.nombre}" disabled />
+              <select class="kg" disabled>${generarOpcionesKG(ej.kg)}</select>
+              <select class="seriesReps" disabled>${generarOpcionesSeriesReps(ej.seriesReps)}</select>
+            </div>`;
         });
+        content += '</div></div></div>';
       });
-      dias.push({ dia: titulo, ejercicios });
-    });
-    localStorage.setItem('rutinaCompleta', JSON.stringify(dias));
-  };
 
-  const generarOpcionesKG = (valorSeleccionado = "") => {
-    let opciones = '';
-    for (let i = 1; i <= 100; i += 1) {
-      const value = `${i} kg`;
-      opciones += `<option${value === valorSeleccionado ? ' selected' : ''}>${value}</option>`;
-    }
-    return opciones;
-  };
+      document.getElementById('tabs').innerHTML = tabs;
+      document.getElementById('diasRutina').innerHTML = content;
 
-  const generarOpcionesSeriesReps = (valorSeleccionado = "") => {
-    const opcionesBase = ["3x6", "3x8", "3x10", "3x12", "3x15", "4x6", "4x8", "4x10", "4x12", "4x15", "3x1'", "3x2'", "4x1'", "4x2'"];
-    return opcionesBase.map(op => `<option${op === valorSeleccionado ? ' selected' : ''}>${op}</option>`).join('');
-  };
+      mostrarDia(0);
+    };
 
-  const verEjercicio = (ejercicio) => {
-    const query = encodeURIComponent(ejercicio);
-    window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
-  };
+    const mostrarDia = (index) => {
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.getElementById(`dia${index}`).classList.add('active');
+    };
 
+    const generarOpcionesKG = (valorSeleccionado = "") => {
+      let opciones = '';
+      for (let i = 1; i <= 100; i += 1) {
+        const value = `${i} kg`;
+        opciones += `<option${value === valorSeleccionado ? ' selected' : ''}>${value}</option>`;
+      }
+      return opciones;
+    };
 
-  const resetRutina = () => {
-    if (confirm("¿Seguro que quieres resetear la rutina?")) {
-      localStorage.removeItem('rutinaCompleta');
-      cargarRutina5Dias();
-    }
-  };
+    const generarOpcionesSeriesReps = (valorSeleccionado = "") => {
+      const opcionesBase = ["3x6", "3x8", "3x10", "3x12", "3x15", "4x6", "4x8", "4x10", "4x12", "4x15", "3x1'", "3x2'", "4x1'", "4x2'"];
+      return opcionesBase.map(op => `<option${op === valorSeleccionado ? ' selected' : ''}>${op}</option>`).join('');
+    };
 
-  window.onload = () => {
-    cargarRutina5Dias();
-  };
-</script>
+    const verEjercicio = (ejercicio) => {
+      const query = encodeURIComponent(ejercicio);
+      window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
+    };
+  </script>
 </body>
 </html>
