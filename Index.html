@@ -17,7 +17,7 @@
       color: white;
     }
 
-    @media (max-width: 768) {
+    @media (max-width: 768px) {
       body {
         background-size: 100% auto;
       }
@@ -327,43 +327,43 @@
     let rutinaGuardada = JSON.parse(localStorage.getItem('rutinaCompleta'));
     const diasPorDefecto = [
       { dia: "Día 1 – Push (Pecho, Hombros, Tríceps)", ejercicios: [
-          { nombre: "Press banca plano con barra", kg: "", seriesReps: "" },
-          { nombre: "Press inclinado con mancuernas", kg: "", seriesReps: "" },
-          { nombre: "Aperturas en máquina o polea", kg: "", seriesReps: "" },
-          { nombre: "Press militar con barra", kg: "", seriesReps: "" },
-          { nombre: "Elevaciones laterales", kg: "", seriesReps: "" },
-          { nombre: "Fondos o extensión de tríceps en polea", kg: "", seriesReps: "" }
+          { nombre: "Press banca plano mancuernas", kg: "14 kg", seriesReps: "4x8" },
+          { nombre: "Press inclinado mancuernas", kg: "12 kg", seriesReps: "4x10" },
+          { nombre: "Aperturas máquina o polea", kg: "23 kg", seriesReps: "3x12" },
+          { nombre: "Press militar mancuernas", kg: "10 kg", seriesReps: "4x8" },
+          { nombre: "Elevaciones laterales", kg: " 4 kg", seriesReps: "3x12" },
+          { nombre: "Extensión tríceps polea", kg: "14 kg", seriesReps: "3x12" }
         ]},
       { dia: "Día 2 – Pull (Espalda, Bíceps)", ejercicios: [
-          { nombre: "Dominadas o jalones al pecho", kg: "", seriesReps: "" },
-          { nombre: "Remo con barra o mancuernas", kg: "", seriesReps: "" },
-          { nombre: "Jalón en polea con agarre cerrado", kg: "", seriesReps: "" },
-          { nombre: "Curl bíceps con barra", kg: "", seriesReps: "" },
-          { nombre: "Curl martillo", kg: "", seriesReps: "" },
-          { nombre: "Face pulls", kg: "", seriesReps: "" }
+          { nombre: "Jalones al pecho", kg: "45 kg", seriesReps: "4x10" },
+          { nombre: "Remo con polea", kg: "27 kg", seriesReps: "4x10" },
+          { nombre: "Jalón agarre cerrado", kg: "45 kg", seriesReps: "3x10" },
+          { nombre: "Curl bíceps mancuernas", kg: "5 kg", seriesReps: "3x10" },
+          { nombre: "Curl martillo", kg: "6 kg", seriesReps: "3x12" },
+          { nombre: "Face pulls", kg: "", seriesReps: "3x12" }
         ]},
       { dia: "Día 3 – Piernas", ejercicios: [
-          { nombre: "Sentadillas", kg: "", seriesReps: "" },
-          { nombre: "Prensa", kg: "", seriesReps: "" },
-          { nombre: "Peso muerto rumano", kg: "", seriesReps: "" },
-          { nombre: "Zancadas caminando", kg: "", seriesReps: "" },
-          { nombre: "Curl femoral", kg: "", seriesReps: "" },
-          { nombre: "Elevaciones de talones (gemelos)", kg: "", seriesReps: "" }
+          { nombre: "Sentadillas", kg: "", seriesReps: "4x8" },
+          { nombre: "Prensa", kg: "60 kg", seriesReps: "4x12" },
+          { nombre: "Peso muerto rumano", kg: "", seriesReps: "3x15" },
+          { nombre: "Zancadas caminando", kg: "", seriesReps: "3x12" },
+          { nombre: "Curl femoral", kg: "27 kg", seriesReps: "3x12" },
+          { nombre: "Elevaciones de gemelos", kg: "", seriesReps: "4x15" }
         ]},
       { dia: "Día 4 – Tren Superior (Fuerza)", ejercicios: [
-          { nombre: "Press banca plano", kg: "", seriesReps: "" },
-          { nombre: "Dominadas lastradas o jalón", kg: "", seriesReps: "" },
-          { nombre: "Remo con barra", kg: "", seriesReps: "" },
-          { nombre: "Press militar", kg: "", seriesReps: "" },
-          { nombre: "Curl bíceps + fondos (superserie)", kg: "", seriesReps: "" }
+          { nombre: "Press banca plano", kg: "14 kg", seriesReps: "4x8" },
+          { nombre: "Jalones al pecho", kg: " 45 kg", seriesReps: "4x8" },
+          { nombre: "Remo con polea", kg: " 27 kg", seriesReps: "4x8" },
+          { nombre: "Press militar", kg: "10 kg", seriesReps: "4x8" },
+          { nombre: "Curl bíceps", kg: "6 kg", seriesReps: "3x10" }
         ]},
       { dia: "Día 5 – Tren Inferior (Fuerza / Glúteos / Core)", ejercicios: [
-          { nombre: "Peso muerto convencional", kg: "", seriesReps: "" },
-          { nombre: "Sentadilla frontal o hack", kg: "", seriesReps: "" },
-          { nombre: "Hip thrust", kg: "", seriesReps: "" },
-          { nombre: "Abductores en máquina", kg: "", seriesReps: "" },
-          { nombre: "Plancha", kg: "", seriesReps: "" },
-          { nombre: "Crunch en polea alta", kg: "", seriesReps: "" }
+          { nombre: "Peso muerto convencional", kg: "", seriesReps: "4x6" },
+          { nombre: "Sentadilla frontal o hack", kg: "", seriesReps: "4x8" },
+          { nombre: "Hip thrust", kg: "", seriesReps: "4x10" },
+          { nombre: "Abductores en máquina", kg: "", seriesReps: "3x12" },
+          { nombre: "Plancha", kg: "", seriesReps: "3x1'" },
+          { nombre: "Crunch en polea alta", kg: "", seriesReps: "3x15" }
         ]}
     ];
 
@@ -381,7 +381,6 @@
             <input value="${ej.nombre}" disabled />
             <select class="kg" disabled>${generarOpcionesKG(ej.kg)}</select>
             <select class="seriesReps" disabled>${generarOpcionesSeriesReps(ej.seriesReps)}</select>
-            <button onclick="eliminarEjercicio(event)">❌</button>
           </div>`;
       });
       content += '</div></div></div>';
@@ -417,7 +416,7 @@
 
   const generarOpcionesKG = (valorSeleccionado = "") => {
     let opciones = '';
-    for (let i = 5; i <= 100; i += 5) {
+    for (let i = 1; i <= 100; i += 1) {
       const value = `${i} kg`;
       opciones += `<option${value === valorSeleccionado ? ' selected' : ''}>${value}</option>`;
     }
@@ -434,10 +433,6 @@
     window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
   };
 
-  const eliminarEjercicio = (e) => {
-    e.target.closest('.ejercicio').remove();
-    guardarEstadoPagina();
-  };
 
   const resetRutina = () => {
     if (confirm("¿Seguro que quieres resetear la rutina?")) {
