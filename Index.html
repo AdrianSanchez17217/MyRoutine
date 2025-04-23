@@ -259,6 +259,8 @@
     <div id="diasRutina"></div>
   </div>
 
+  <div id="imagenEjercicio" style="text-align:center; margin-top: 20px;"></div>
+
   <script>
     let rutinaSeleccionada = null;
 
@@ -365,6 +367,42 @@
     };
 
     const verEjercicio = (ejercicio) => {
+      const opciones = document.createElement('div');
+      opciones.classList.add('popup-opciones');
+      opciones.style.position = 'absolute';
+      opciones.style.background = 'white';
+      opciones.style.border = '1px solid #ccc';
+      opciones.style.padding = '10px';
+      opciones.style.zIndex = 1000;
+
+      const btnFotos = document.createElement('button');
+      btnFotos.textContent = '📷 Ver fotos';
+      btnFotos.onclick = () => {
+        verFotosGoogle(ejercicio);
+        opciones.remove();
+      };
+
+      const btnVideo = document.createElement('button');
+      btnVideo.textContent = '▶️ Ver video';
+      btnVideo.onclick = () => {
+        window.open(`https://www.youtube.com/results?search_query=${encodeURIComponent(ejercicio)}+ejercicio+gym`, '_blank');
+        opciones.remove();
+      };
+
+      opciones.appendChild(btnFotos);
+      opciones.appendChild(btnVideo);
+
+      // Elimina cualquier otro menú antes de agregar uno nuevo
+      document.querySelectorAll('.popup-opciones').forEach(el => el.remove());
+
+      document.body.appendChild(opciones);
+      const mouseX = event.clientX + window.scrollX;
+      const mouseY = event.clientY + window.scrollY;
+      opciones.style.left = mouseX + 'px';
+      opciones.style.top = mouseY + 'px';
+    };
+
+    const verFotosGoogle = (ejercicio) => {
       const query = encodeURIComponent(ejercicio);
       window.open(`https://www.google.com/search?hl=es&tbm=isch&q=${query}`, '_blank');
     };
